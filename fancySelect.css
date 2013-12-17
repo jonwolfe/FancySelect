@@ -136,11 +136,33 @@ div.fancy-select ul.options li {
 	-o-transition: all 150ms ease-out;
 }
 
+div.fancy-select ul.options li.option {
+	padding: 8px 12px;
+}
+
+div.fancy-select ul.options span.optgroup-label {
+	display: block;
+	padding: 8px 12px;
+	font-style: italic;
+	color: #323d42;
+}
+
+div.fancy-select ul.options li.optgroup {
+	padding: 0;
+}
+div.fancy-select ul.options li.optgroup ul {
+	padding: 0;
+}
+div.fancy-select ul.options li.optgroup li {
+	padding: 8px 12px 8px 24px;
+}
+
 div.fancy-select ul.options li.selected {
 	background: rgba(43,134,134,0.3);
 	color: rgba(255,255,255,0.75);
 }
 
-div.fancy-select ul.options li.hover {
+div.fancy-select ul.options li.option:hover {
 	color: #fff;
+	background: rgba(43,134,134,0.2);
 }

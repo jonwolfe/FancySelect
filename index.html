@@ -47,7 +47,7 @@
 		<script src="fancySelect.js"></script>
 		<script>
 			$(document).ready(function() {
-				$('#basic-usage-demo').fancySelect();
+				$('#basic-usage-demo').fancySelect({includeBlank:true});
 
 				// Boilerplate
 				var repoName = 'fancyselect'
@@ -141,12 +141,16 @@
 		<div id="main">
 			<section id="basic-usage">
 				<select id="basic-usage-demo">
-					<option value="">Pick Something…</option>
-					<option>Lorem Ipsum</option>
-					<option>Dolor Sit</option>
-					<option>Vehicula Ornare</option>
-					<option>Foo</option>
-					<option>Bar</option>
+					<option value>Pick Something…</option>
+					<optgroup label="group 1">
+						<option>Lorem Ipsum</option>
+						<option>Dolor Sit</option>
+						<option>Vehicula Ornare</option>
+					</optgroup>
+					<optgroup label="group 2">
+						<option>Foo</option>
+						<option>Bar</option>
+					</optgroup>
 					<option>Baz</option>
 					<option>Qux</option>
 					<option>Zoobie</option>

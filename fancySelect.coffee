@@ -135,7 +135,7 @@ $.fn.fancySelect = (opts = {}) ->
 
     # Handle item selection, and
     # Add class selected to selected item
-    options.on 'click', 'li', (e) ->
+    options.on 'click', 'li.option', (e) ->
       sel.val($(this).data('value'))
 
       sel.trigger('blur').trigger('focus') unless isiOS
@@ -144,37 +144,32 @@ $.fn.fancySelect = (opts = {}) ->
       $(e.currentTarget).addClass 'selected'
       return sel.val($(this).data('value')).trigger('change').trigger('blur').trigger('focus')
 
-    # handle mouse selection
-    options.on 'mouseenter', 'li', ->
-      nowHovered = $(this)
-      hovered = options.find('.hover')
-      hovered.removeClass 'hover'
-
-      nowHovered.addClass 'hover'
-
-    options.on 'mouseleave', 'li', ->
-      options.find('.hover').removeClass('hover')
-
     copyOptionsToList = ->
       # update our trigger to reflect the select (it really already should, this is just a safety)
       updateTriggerText()
 
       return if isiOS && !settings.forceiOS
 
-      # snag current options before we add a default one
-      selOpts = sel.find 'option'
-
-      # generate list of options for the fancySelect
-
-      sel.find('option').each (i, opt) ->
+      sel.children().each (i, opt) ->
         opt = $(opt)
+        if opt.is('option')
+          createLiFromOption opt, options
+        else if opt.is('optgroup')
+          optgroup = opt
+          options.append "<li class='optgroup'><span class='optgroup-label'>#{optgroup.prop 'label'}</span><ul id=optgroup_#{i}>"
+          ul = $("#optgroup_#{i}")
+          optgroup.children().each (i, nested_opt) ->
+            nested_opt = $(nested_opt)
+            createLiFromOption nested_opt, ul
 
-        if !opt.prop('disabled') && (opt.val() || settings.includeBlank)
-          # Is there a select option on page load?
-          if opt.prop('selected')
-            options.append "<li data-value=\"#{opt.val()}\" class=\"selected\">#{opt.text()}</li>"
-          else
-            options.append "<li data-value=\"#{opt.val()}\">#{opt.text()}</li>"
+    createLiFromOption = (opt, parent) ->
+      if !opt.prop('disabled') && (opt.val() || settings.includeBlank)
+        # Is there a select option on page load?
+        if opt.prop('selected')
+          parent.append "<li data-value='#{opt.val()}' class='option selected'>#{opt.text()}</li>"
+        else
+          parent.append "<li data-value='#{opt.val()}' class='option'>#{opt.text()}</li>"
+
 
     # for updating the list of options after initialization
     sel.on 'update', ->
